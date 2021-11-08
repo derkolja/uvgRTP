@@ -84,8 +84,8 @@ uvgrtp::frame::rtp_frame *uvgrtp::pkt_dispatcher::pull_frame(size_t timeout_ms)
 {
     auto start_time = std::chrono::high_resolution_clock::now();
 
-    while (frames_.empty() && 
-        !runner_should_stop_ && 
+    while (frames_.empty() &&
+        !runner_should_stop_ &&
         timeout_ms > std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start_time).count())
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -204,7 +204,7 @@ void uvgrtp::pkt_dispatcher::call_aux_handlers(uint32_t key, int flags, uvgrtp::
 
     for (auto& aux : packet_handlers_[key].auxiliary_cpp) {
         switch ((ret = aux.handler(flags, frame))) {
-            
+
         case RTP_OK: /* packet was handled successfully */
         {
             break;
@@ -285,7 +285,7 @@ void uvgrtp::pkt_dispatcher::call_aux_handlers(uint32_t key, int flags, uvgrtp::
  * If a handler receives a non-null "out", it can safely ignore "packet" and operate just on
  * the "out" parameter because at that point it already contains all needed information. */
 void uvgrtp::pkt_dispatcher::runner(uvgrtp::socket *socket, int flags)
-{   
+{
     // stack size isn't enough for this so we allocate temporary memory for it from heap
     const size_t recv_buffer_len = 0xffff - IPV4_HDR_SIZE - UDP_HDR_SIZE;
     uint8_t* recv_buffer = new uint8_t[recv_buffer_len];
@@ -310,7 +310,7 @@ void uvgrtp::pkt_dispatcher::runner(uvgrtp::socket *socket, int flags)
         rtp_error_t ret = RTP_OK;
         do {
             int nread = 0;
-            
+
             if ((ret = socket->recvfrom(recv_buffer, recv_buffer_len, MSG_DONTWAIT, &nread)) == RTP_INTERRUPTED)
                 break;
 

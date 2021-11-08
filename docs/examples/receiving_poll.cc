@@ -23,8 +23,8 @@ int main(void)
         (void)uvgrtp::frame::dealloc_frame(frame);
     }
 
-    /* You can also specify for a timeout for the operation and if the a frame is not received 
-     * within that time limit, pull_frame() returns a nullptr 
+    /* You can also specify for a timeout for the operation and if the a frame is not received
+     * within that time limit, pull_frame() returns a nullptr
      *
      * The parameter tells how long time a frame is waited in milliseconds */
     frame = hevc->pull_frame(200);
